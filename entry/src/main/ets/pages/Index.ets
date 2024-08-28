@@ -16,8 +16,7 @@ import { abilityAccessCtrl, PermissionRequestResult, Permissions } from '@kit.Ab
 import { ImageCacheUtil } from '../ImageCacheUtil';
 
 const TAG: string = '[Permission]';
-const PERMISSIONS: Array<Permissions> =
-  ["ohos.permission.READ_IMAGEVIDEO", "ohos.permission.WRITE_IMAGEVIDEO"];
+const PERMISSIONS: Array<Permissions> = ["ohos.permission.READ_IMAGEVIDEO", "ohos.permission.WRITE_IMAGEVIDEO"];
 const context = getContext(this) as common.UIAbilityContext;
 
 export default async function grantPermission(): Promise<boolean> {
@@ -52,36 +51,6 @@ export default async function grantPermission(): Promise<boolean> {
 }
 
 
-class ImageModifier implements AttributeModifier<ImageAttribute> {
-  private _imageWidth: Length = 0;
-
-  public setImageWidth(value: Length): ImageModifier {
-    this._imageWidth = value;
-    return this
-  }
-
-  public get imageWidth(): Length {
-    return this._imageWidth;
-  }
-
-  private _imageHeight: Length = 0;
-
-  public setImageHeight(value: Length): ImageModifier {
-    this._imageHeight = value;
-    return this
-  }
-
-  public get imageHeight(): Length {
-    return this._imageHeight;
-  }
-
-  applyNormalAttribute(instance: ImageAttribute): void {
-    instance.width(this._imageWidth)
-    instance.height(this._imageHeight)
-    //instance.alt()
-  }
-}
-
 //使用方使用提供方的公用组件MyButton
 @Entry
 @Component
@@ -90,7 +59,8 @@ struct Index {
   @State imageLocal: image.PixelMap | string | undefined = undefined;
 
   async aboutToAppear(): Promise<void> {
-    this.imageLocal =  await ImageCacheUtil.downLoadFile(getContext(), 'https://img.zcool.cn/community/010ddd6034cd9e11013ef90fe189f7.gif')
+    this.imageLocal = await ImageCacheUtil.downLoadCacheFile(getContext(),
+      'https://photo.16pic.com/00/82/08/16pic_8208987_b.jpg')
   }
 
   build() {
@@ -110,7 +80,8 @@ struct Index {
       //https://www.zhipin.com/sem/static/img/banner.97f904e9.png
       //https://img1.baidu.com/it/u=3809505498,1140154284&fm=253&fmt=auto&app=138&f=JPEG?w=641&h=500
       //https://img.zcool.cn/community/010ddd6034cd9e11013ef90fe189f7.gif
-      //return
+      //https://5b0988e595225.cdn.sohucs.com/q_70,c_zoom,w_640/images/20190514/eca8cb6ea55c42e2a1adec000b95e678.gif
+      //https://img0.baidu.com/it/u=143672386,1614197866&fm=253&fmt=auto&app=138&f=JPEG?w=300&h=300
 
 
       //DeepAppLinkUtil.jumpByLinkOfOpenLink('jumpScheme://www.jump.com:8080/ansp/path')
