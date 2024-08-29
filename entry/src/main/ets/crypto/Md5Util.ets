@@ -1,6 +1,6 @@
 import { cryptoFramework } from '@kit.CryptoArchitectureKit';
 import { buffer } from '@kit.ArkTS';
-import { StrUtil } from '../StrUtil';
+import { StrUtil } from '../utils/StrUtil';
 
 export class Md5Util {
   async doMd(message: string) {

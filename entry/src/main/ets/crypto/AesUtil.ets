@@ -1,6 +1,6 @@
 import { IBaseEncrypt } from './IBaseEncrypt';
 import cryptoFramework from '@ohos.security.cryptoFramework';
-import { StrUtil } from '../StrUtil';
+import { StrUtil } from '../utils/StrUtil';
 
 const TAG: string = "AesUtil"
 
