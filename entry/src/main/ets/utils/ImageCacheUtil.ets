@@ -162,8 +162,6 @@ export class ImageCacheUtil {
               resolve(catchPixelMap)
               return
             }
-            //编码失败
-            this.clearImageFailCache(downloadPath)
             resolve(downloadUrl);
             return
           });

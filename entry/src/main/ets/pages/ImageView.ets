@@ -5,16 +5,21 @@ import { ImageCacheUtil } from '../utils/ImageCacheUtil';
 export struct ImageView {
   @Prop imgUrl: string
   @State imageLocal: image.PixelMap | string | undefined = undefined;
+  imageCatchUtils: ImageCacheUtil | undefined = undefined
 
   async aboutToAppear(): Promise<void> {
-    let imageUtils = new ImageCacheUtil.Builder(getContext()).setImageFolderName('file').setCacheMaxSize(1024*1024*9).setNoCatchImageType(['.gif'])
+    this.imageCatchUtils = new ImageCacheUtil.Builder(getContext()).setImageFolderName('file')
+      .setCacheMaxSize(1024 * 1024 * 9)
+      .setNoCatchImageType(['.gif'])
       .build()
-    this.imageLocal = await imageUtils.downLoadCacheFile(this.imgUrl)
+    this.imageLocal = await this.imageCatchUtils.downLoadCacheFile(this.imgUrl)
   }
 
   build() {
     if (this.imageLocal) {
-      Image(this.imageLocal)
+      Image(this.imageLocal).onClick(() => {
+        this.imageCatchUtils?.clearImageCache()
+      })
     } else {
       LoadingProgress().color(Color.White)
     }
