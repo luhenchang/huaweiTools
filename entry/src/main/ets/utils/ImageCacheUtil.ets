@@ -8,6 +8,7 @@ import util from '@ohos.util';
 import { Context } from '@kit.AbilityKit';
 
 export class ImageCacheUtil {
+  TAG = ImageCacheUtil.name
   readonly context: Context
   //缓存文件默认路径
   readonly imageFolderName: string = 'images'
@@ -18,6 +19,7 @@ export class ImageCacheUtil {
   //200M 是文件夹默认最大上线，如果大于这个数据就需要删除一般空间了。
   readonly cacheMaxSize = 1024 * 1024 * 200
   //不进行缓存的图直接返回路径，并删除本地缓存
+  //例如['.gif','jpg'] 就会将.gif文件和jpg文件不进行缓存，直接返回url，作为Image默认加载。
   readonly noCatchImageType: string[] = []
 
   constructor(builder: ImageCacheUtil.Builder) {
@@ -77,7 +79,7 @@ export class ImageCacheUtil {
         let resultEnd = await this.downloadFile(this.context, downloadUrl, downloadPath)
         resolve(resultEnd)
       } catch (e) {
-        console.error('message::err' + e.stack?.toString())
+        console.error(this.TAG + `::downLoadCacheFile error message = ${e.stack?.toString()}`)
         resolve(downloadUrl)
       }
     })
@@ -86,8 +88,6 @@ export class ImageCacheUtil {
   async getImageType(filePath: string, readByteLength: number = 12): Promise<string> {
     let readBuf = await this.readAllBytes(filePath, readByteLength)
     let fileTypeHeader = this.stringToHex(buffer.from(readBuf).toString()).toUpperCase()
-    console.error("Image Type ## =" + fileTypeHeader)
-    console.error("Image Type string =" + this.hexToString(fileTypeHeader))
     if (fileTypeHeader.includes('504E470D0A1A0A')) {
       return '.png'
     } else if (fileTypeHeader.includes('4A464946')) {
@@ -165,8 +165,8 @@ export class ImageCacheUtil {
             resolve(downloadUrl);
             return
           });
-          downloadTask.on('fail', (erro) => {
-            console.info('message::fail=' + erro);
+          downloadTask.on('fail', (error) => {
+            console.error(this.TAG + `::downloadFile downloadTask fail error= ${error?.toString()}`)
             //下载失败需要删除本地路径，然后返回下载缓存路径
             this.clearImageFailCache(downloadPath);
             resolve(downloadUrl);
@@ -174,7 +174,7 @@ export class ImageCacheUtil {
           });
         })
         .catch((err: BusinessError) => {
-          console.error(`Failed to request the download. Code: ${err.code}, message: ${err.message}`);
+          console.error(`${this.TAG}::downloadFile Failed to request the download. Code: ${err.code}, message: ${err.message}`);
           this.clearImageFailCache(downloadPath);
           resolve(downloadUrl);
           return
@@ -190,14 +190,12 @@ export class ImageCacheUtil {
   async uriOrPathConvertPixelMap(path: string): Promise<image.PixelMap | undefined> {
     try {
       let file = fs.openSync(path, fs.OpenMode.READ_ONLY)
-      file.fd
       const imageSource: image.ImageSource = image.createImageSource(file.fd)
       fs.closeSync(file)
       let decodingOptions: image.DecodingOptions = {
         editable: true,
         desiredPixelFormat: 3,
       }
-      console.error("pixelMap start Time="+`${new Date().getTime()}`)
       let pixelMap = await imageSource.createPixelMap(decodingOptions)
       return pixelMap
     } catch (e) {
