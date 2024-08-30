@@ -1,11 +1,11 @@
 //图片缓存工具
-import { Md5Util } from '../crypto/Md5Util';
 import { BusinessError, request } from '@kit.BasicServicesKit';
 import fs, { ReadOptions } from '@ohos.file.fs';
 import { image } from '@kit.ImageKit';
 import { buffer } from '@kit.ArkTS';
 import util from '@ohos.util';
 import { Context } from '@kit.AbilityKit';
+import { Md5Util } from './Md5Util';
 
 export class ImageCacheUtil {
   TAG = ImageCacheUtil.name
@@ -39,7 +39,7 @@ export class ImageCacheUtil {
    */
   downLoadCacheFile(
     downloadUrl: string
-  ): Promise<image.PixelMap | string | undefined> {
+  ): Promise<image.PixelMap | string> {
     return new Promise(async (resolve, reject) => {
       try {
         //1、获取图片类型例如 .png/.jpg/.weep等。
@@ -69,18 +69,27 @@ export class ImageCacheUtil {
               }
               //文件编码为pixelMap失败，所以删除文件并再次下载
               this.clearImageFailCache(downloadPath);
-              let resultEnd = await this.downloadFile(this.context, downloadUrl, downloadPath)
-              resolve(resultEnd)
-              return
+              this.downloadFile(this.context, downloadUrl, downloadPath).then((resultEnd) => {
+                resolve(resultEnd)
+                return
+              }).catch((err: BusinessError) => {
+                reject("err message:" + err.message + ",error code:" + err.code)
+              })
+
             }
           }
         }
         //如果图片文件夹不存在就去下载
-        let resultEnd = await this.downloadFile(this.context, downloadUrl, downloadPath)
-        resolve(resultEnd)
-      } catch (e) {
-        console.error(this.TAG + `::downLoadCacheFile error message = ${e.stack?.toString()}`)
-        resolve(downloadUrl)
+        this.downloadFile(this.context, downloadUrl, downloadPath).then((resultEnd) => {
+          resolve(resultEnd)
+          return
+        }).catch((err: BusinessError) => {
+          reject(err.message)
+        })
+
+      } catch (err) {
+        console.error(this.TAG + `::downLoadCacheFile error message = ${err.stack?.toString()}`)
+        reject("err message:" + err.message + ",error code:" + err.code)
       }
     })
   }
@@ -145,7 +154,7 @@ export class ImageCacheUtil {
    * @returns
    */
   private async downloadFile(context: Context, downloadUrl: string,
-    downloadPath: string): Promise<image.PixelMap | string | undefined> {
+    downloadPath: string): Promise<image.PixelMap | string> {
     return new Promise((resolve, reject) => {
       request.downloadFile(context, { url: downloadUrl, filePath: downloadPath })
         .then((downloadTask: request.DownloadTask) => {
@@ -162,22 +171,19 @@ export class ImageCacheUtil {
               resolve(catchPixelMap)
               return
             }
-            resolve(downloadUrl);
-            return
+            reject(new Error('PixelMap编码失败'));
           });
           downloadTask.on('fail', (error) => {
             console.error(this.TAG + `::downloadFile downloadTask fail error= ${error?.toString()}`)
             //下载失败需要删除本地路径，然后返回下载缓存路径
             this.clearImageFailCache(downloadPath);
-            resolve(downloadUrl);
-            return
+            reject(new Error('图片下载失败'));
           });
         })
         .catch((err: BusinessError) => {
           console.error(`${this.TAG}::downloadFile Failed to request the download. Code: ${err.code}, message: ${err.message}`);
           this.clearImageFailCache(downloadPath);
-          resolve(downloadUrl);
-          return
+          reject("err message:" + err.message + ",error code:" + err.code)
         });
     })
   }
@@ -340,7 +346,10 @@ export class ImageCacheUtil {
    * @param path
    */
   async clearImageFailCache(path: string) {
-    await fs.unlink(path)
+    let exist = fs.accessSync(path)
+    if (exist) {
+      await fs.unlink(path)
+    }
   }
 }
 
@@ -377,5 +386,33 @@ export namespace ImageCacheUtil {
   }
 }
 
-
+// 使用案例：
+// import { image } from '@kit.ImageKit';
+// import { ImageCacheUtil } from '../utils/ImageCacheUtil';
+//
+// @Component
+// export struct ImageView {
+//   @Prop imgUrl: string
+//   @State imageLocal: image.PixelMap | string | undefined = undefined;
+//   imageCatchUtils: ImageCacheUtil | undefined = undefined
+//
+//   async aboutToAppear(): Promise<void> {
+//     this.imageCatchUtils = new ImageCacheUtil.Builder(getContext())
+//       .setImageFolderName('file')
+//       .setCacheMaxSize(1024 * 1024 * 9)
+//       .setNoCatchImageType(['.gif'])
+//       .build()
+//     this.imageLocal = await this.imageCatchUtils.downLoadCacheFile(this.imgUrl)
+//   }
+//
+//   build() {
+//     if (this.imageLocal) {
+//       Image(this.imageLocal).onClick(() => {
+//         this.imageCatchUtils?.clearImageCache()
+//       })
+//     } else {
+//       LoadingProgress().color(Color.White)
+//     }
+//   }
+// }
 
