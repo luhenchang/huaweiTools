@@ -15,6 +15,10 @@
     {
       "name": "CAMERA",
       "value": "需要读写相册权限"
+    },
+    {
+      "name": "please_input_link",
+      "value": "请输入三方应用Link"
     }
   ]
 }

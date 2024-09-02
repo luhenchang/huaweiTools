@@ -1,0 +1,227 @@
+{
+  "scheme": [
+    {
+      "uid": "100001",
+      "layer": 1,
+      "marginTop": {
+        "size": "0",
+        "reference": "super",
+        "layout": "top"
+      },
+      "marginLeft": {
+        "size": "0",
+        "reference": "super",
+        "layout": "left"
+      },
+      "marginRight": {
+        "size": "0",
+        "reference": "super",
+        "layout": "right"
+      },
+      "marginBottom": {
+        "size": "0",
+        "reference": "super",
+        "layout": "bottom"
+      },
+      "superView": "none",
+      "bgColor": "#80000000",
+      "controlType": "view"
+    },
+    {
+      "uid": "110001",
+      "layer": 1,
+      "centerY": {
+        "size": "-25",
+        "reference": "super",
+        "layout": "centerY"
+      },
+      "marginLeft": {
+        "size": "18%",
+        "reference": "super",
+        "layout": "left"
+      },
+      "marginRight": {
+        "size": "-18%",
+        "reference": "super",
+        "layout": "right"
+      },
+      "height": {
+        "size": "177%",
+        "reference": "own",
+        "layout": "width"
+      },
+      "borderRadius": "10",
+      "superView": "100001",
+      "bgColor": "#ffffff",
+      "controlType": "view"
+    },
+    {
+      "uid": "120001",
+      "layer": 1,
+      "marginTop": {
+        "size": "5",
+        "reference": "super",
+        "layout": "top"
+      },
+      "marginLeft": {
+        "size": "5",
+        "reference": "super",
+        "layout": "left"
+      },
+      "marginRight": {
+        "size": "-5",
+        "reference": "super",
+        "layout": "right"
+      },
+      "marginBottom": {
+        "size": "-5",
+        "reference": "super",
+        "layout": "bottom"
+      },
+      "superView": "110001",
+      "bgColor": "#00000000",
+      "controlType": "image",
+      "borderRadius": "6",
+      "isBlur": 0,
+      "assetId": "1001"
+    },
+    {
+      "uid": "130001",
+      "layer": 10,
+      "marginTop": {
+        "size": "10",
+        "reference": "super",
+        "layout": "top"
+      },
+      "marginRight": {
+        "size": "-10",
+        "reference": "super",
+        "layout": "right"
+      },
+      "height": {
+        "size": "22",
+        "reference": "own",
+        "layout": "height"
+      },
+      "width": {
+        "size": "60",
+        "reference": "own",
+        "layout": "width"
+      },
+      "superView": "120001",
+      "bgColor": "#66333333",
+      "borderRadius": "50%",
+      "controlType": "countdownclose",
+      "autoClose": 0,
+      "bindEvent": "click",
+      "execution": "close",
+      "title": "关闭",
+      "fontSize": 12,
+      "textColor": "#FFFFFF",
+      "textAlign": "center",
+      "countDownTime": 10000
+    },
+    {
+      "uid": "140001",
+      "layer": 2,
+      "marginBottom": {
+        "size": "-15",
+        "reference": "super",
+        "layout": "bottom"
+      },
+      "marginRight": {
+        "size": "-20",
+        "reference": "super",
+        "layout": "right"
+      },
+      "height": {
+        "size": "15",
+        "reference": "own",
+        "layout": "height"
+      },
+      "width": {
+        "size": "50%",
+        "reference": "super",
+        "layout": "width"
+      },
+      "superView": "120001",
+      "bgColor": "#00000000",
+      "controlType": "tag",
+      "fontSize": 9,
+      "textColor": "#000000",
+      "textAlign": "right"
+    },
+    {
+      "uid": "150001",
+      "layer": 2,
+      "marginBottom": {
+        "size": "-20",
+        "reference": "super",
+        "layout": "bottom"
+      },
+      "marginLeft": {
+        "size": "20",
+        "reference": "super",
+        "layout": "left"
+      },
+      "height": {
+        "size": "20",
+        "reference": "own",
+        "layout": "height"
+      },
+      "width": {
+        "size": "100",
+        "reference": "own",
+        "layout": "width"
+      },
+      "superView": "120001",
+      "bgColor": "#66888888",
+      "borderRadius": 2,
+      "controlType": "logo",
+      "title": "广告",
+      "fontSize": 9,
+      "textColor": "#DDDDDD",
+      "textAlign": "center"
+    },
+    {
+      "uid": "160001",
+      "layer": 2,
+      "marginLeft": {
+        "size": "0",
+        "reference": "110001",
+        "layout": "left"
+      },
+      "marginRight": {
+        "size": "0",
+        "reference": "110001",
+        "layout": "right"
+      },
+      "marginTop": {
+        "size": "10",
+        "reference": "110001",
+        "layout": "bottom"
+      },
+      "height": {
+        "size": "40",
+        "reference": "own",
+        "layout": "height"
+      },
+      "superView": "100001",
+      "bgColor": "#3976FF",
+      "borderRadius": "10",
+      "controlType": "region",
+      "bindEvent": "click",
+      "execution": "click",
+      "fontSize": 17,
+      "textColor": "#FFFFFF",
+      "textAlign": "center",
+      "interactiveTitle": {
+        "normal": {
+          "normal": "点击跳转至第三方或详情",
+          "passivation": "点击跳转至第三方或详情",
+          "cool": "点击跳转至第三方或详情"
+        }
+      }
+    }
+  ]
+}

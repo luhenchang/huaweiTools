@@ -1,8 +1,9 @@
 import { image } from '@kit.ImageKit';
 import { ImageCacheUtil } from '../utils/ImageCacheUtil';
-import { images, pageData, PageRouter } from './data';
+import { CatchImage, images, pageData, PageRouter } from '../data/data';
 import { ImageView } from './ImageView';
 import { router } from '@kit.ArkUI';
+import { BusinessError } from '@kit.BasicServicesKit';
 
 
 @Entry

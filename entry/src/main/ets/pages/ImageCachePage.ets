@@ -1,4 +1,4 @@
-import { images } from './data';
+import { images } from '../data/data';
 import { ImageView } from './ImageView';
 
 @Entry

@@ -4,6 +4,8 @@
     "pages/SecondPage",
     "pages/ImageCachePage",
     "pages/JumpOtherAppPage",
-    "pages/DialogPage"
+    "pages/DialogPage",
+    "pages/NextImageVisiblePage",
+    "pages/LayoutMeasurePage"
   ]
 }

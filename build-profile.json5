@@ -5,6 +5,7 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
+
           "certpath": "C:\\Users\\12769\\.ohos\\config\\default_MyApplication_DpN4YE-QofdJKFAmwfyXOJRyjeXD6Ver-3M928x_nK8=.cer",
           "storePassword": "0000001B9C56EF3E2D6201F6DBCF6B34012F93C30863EB5DB0F98622D5857C9CC8739D3A705EA771769A6C",
           "keyAlias": "debugKey",

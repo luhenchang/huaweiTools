@@ -15,7 +15,7 @@ export class ImageCacheUtil {
   //文件路径分隔符
   readonly separator: string = '/'
   //图片文件夹路径
-  readonly dir = getContext().cacheDir + this.separator
+  readonly dir:string
   //200M 是文件夹默认最大上线，如果大于这个数据就需要删除一般空间了。
   readonly cacheMaxSize = 1024 * 1024 * 200
   //不进行缓存的图直接返回路径，并删除本地缓存
@@ -25,7 +25,7 @@ export class ImageCacheUtil {
   constructor(builder: ImageCacheUtil.Builder) {
     this.context = builder.context
     this.imageFolderName = builder.imageFolderName
-    this.dir += builder.imageFolderName
+    this.dir = this.context.cacheDir + this.separator + builder.imageFolderName
     this.cacheMaxSize = builder.cacheMaxSize
     this.noCatchImageType.push(...builder.noCatchImageType)
   }
